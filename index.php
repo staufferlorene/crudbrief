@@ -1,6 +1,11 @@
 <?php
 // importation du config.php
 require 'config.php';
+session_start();
+
+/**************************
+NOTE POUR AIDE AU BRIEF
+ *************************/
 
 // Insertion avec requête préparée
 // $stmt = $pdo->prepare('INSERT INTO truc (machin) VALUES (?)');
@@ -10,6 +15,7 @@ require 'config.php';
 // edit.php et delete.php
 /* <a href="delete.php?id="<?= $produits['id']; ?>>Supprimer</a>
  $id = $_GET['id']; */
+
 
 /**************************
  AFFICHAGE DES PRODUITS
@@ -36,6 +42,8 @@ $produits = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <title>Tableau produit</title>
 </head>
 <body>
+
+<button> <a href="ajout.php">Ajouter un produit</a></button>
 <?php if(!empty($produits)): ?> <!--Si tableau produits n'est pas vide j'affiche le code suivant-->
 
     <table>
@@ -55,8 +63,9 @@ $produits = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <td><?= htmlspecialchars($a['nom']) ?></td>
                 <td><?= htmlspecialchars($a['prix']) ?></td>
                 <td><?= htmlspecialchars($a['stock']) ?></td>
+                <td><a href="update.php?id=<?= $a['id_produits']; ?>">Modifier</a></td>
+                <td><a href="delete.php?id=<?= $a['id_produits']; ?>">Supprimer</a></td>
             </tr>
-
         <?php endforeach; ?>
         </tbody>
     </table>

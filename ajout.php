@@ -1,20 +1,27 @@
 <?php
 require 'config.php';
+session_start();
 
-if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    // Récupération des valeurs du formulaire
-    $nom = $_POST['nom'];
-    $prix = $_POST['prix'];
-    $stock = $_POST['stock'];
+// Vérification de la soumission du formulaire via la méthode POST. C'est une super globale
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-    try {
-        $stmt = $pdo->prepare('INSERT INTO produits (nom, prix, stock) VALUES (?, ?, ?)');
-        $stmt->execute([$nom, $prix, $stock]);
-    } catch (PDOException $e) {
-        echo 'error  est survenue ' . $e->getMessage();
+    $nom = isset($_POST['nom']) ? trim($_POST['nom']) : '';
+    $prix = isset($_POST['prix']) ? trim($_POST['prix']) : '';
+    $stock = isset($_POST['stock']) ? trim($_POST['stock']) : '';
+
+    // Vérification que le champ n'est pas vide
+    if ($nom && $prix && $stock !== '') {
+        try {
+            $stmt = $pdo->prepare('INSERT INTO produits (nom, prix, stock) VALUES (?, ?, ?)');
+            $stmt->execute([$nom, $prix, $stock]);
+            $_SESSION['message'] = "Produit ajouté avec succès";
+            header("Location: index.php");
+            exit();
+        } catch (PDOException $e) {
+            echo 'error  est survenue ' . $e->getMessage();
+        }
     }
 }
-
 ?>
 
 <!doctype html>
@@ -33,10 +40,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         <input type="text" id="name" name="nom" required>
 
         <label for="name">Prix :</label>
-        <input type="text" id="name" name="prix" required>
+        <input type="text" id="prix" name="prix" required>
 
         <label for="name">Stock :</label>
-        <input type="text" id="name" name="stock" required>
+        <input type="text" id="stock" name="stock" required>
         <button type="submit">Valider</button>
     </form>
 </body>
