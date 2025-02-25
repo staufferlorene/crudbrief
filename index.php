@@ -39,6 +39,7 @@ $produits = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="global.css">
     <title>Tableau produit</title>
 </head>
 <body>
@@ -63,8 +64,8 @@ $produits = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <td><?= htmlspecialchars($a['nom']) ?></td>
                 <td><?= htmlspecialchars($a['prix']) ?></td>
                 <td><?= htmlspecialchars($a['stock']) ?></td>
-                <td><a href="update.php?id=<?= $a['id_produits']; ?>">Modifier</a></td>
-                <td><a href="delete.php?id=<?= $a['id_produits']; ?>">Supprimer</a></td>
+                <td><button><a href="update.php?id=<?= $a['id_produits']; ?>">Modifier</a></button></td>
+                <td><button><a href="delete.php?id=<?= $a['id_produits']; ?>">Supprimer</a></button></td>
             </tr>
         <?php endforeach; ?>
         </tbody>
